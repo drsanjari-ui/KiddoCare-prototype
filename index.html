@@ -1,13 +1,2126 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KiddoCare Prototype</title>
-    <link rel="stylesheet" href="./src/styles.css?v=2" />
+    <style>
+:root {
+  --purple-950: #24113d;
+  --purple-900: #321755;
+  --purple-800: #46206f;
+  --purple-700: #5d2c8f;
+  --purple-100: #efe7f8;
+  --purple-50: #f8f4fc;
+  --teal-600: #078c8c;
+  --teal-100: #ddf7f5;
+  --rose-100: #ffe8ee;
+  --rose-700: #b72855;
+  --amber-100: #fff3d8;
+  --amber-700: #a66300;
+  --indigo-100: #e9edff;
+  --indigo-700: #4453b8;
+  --ink: #172033;
+  --muted: #687185;
+  --line: #e7e0ef;
+  --surface: #ffffff;
+  --soft: #fbf8ff;
+  --shadow: 0 20px 55px rgba(36, 17, 61, 0.11);
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top right, rgba(7, 140, 140, 0.12), transparent 34rem),
+    linear-gradient(135deg, #ffffff 0%, #fbf8ff 44%, #f5fbfb 100%);
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 17.5rem minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 1.25rem;
+  background: var(--purple-950);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: white;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 0.85rem;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, var(--teal-600), #8bd7d0);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+.brand strong {
+  display: block;
+  font-size: 1.12rem;
+}
+
+.brand small {
+  display: block;
+  color: #cfc2df;
+  margin-top: 0.15rem;
+}
+
+.nav {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.nav button {
+  width: 100%;
+  min-height: 2.65rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: #dfd4ec;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  white-space: normal;
+}
+
+.nav button:hover,
+.nav button.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+.nav-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.sidebar-note {
+  margin-top: auto;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-note strong,
+.sidebar-note span {
+  display: block;
+}
+
+.sidebar-note span {
+  color: #d4c8e3;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin-top: 0.35rem;
+}
+
+.main {
+  min-width: 0;
+  padding: 1.5rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 76rem;
+  margin: 0 auto 1.2rem;
+  padding: 1rem 0.25rem;
+}
+
+.topbar h1 {
+  margin: 0.25rem 0 0.45rem;
+  color: var(--purple-950);
+  font-size: clamp(1.7rem, 2.4vw, 2.7rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.topbar p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 48rem;
+  line-height: 1.6;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.screen {
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  color: var(--teal-600);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.hero-layout,
+.section-grid,
+.record-layout,
+.parent-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.hero-layout {
+  grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.95fr);
+  align-items: stretch;
+  margin-bottom: 1rem;
+}
+
+.hero-copy {
+  padding: clamp(1.5rem, 3vw, 3.2rem);
+  border-radius: 1.4rem;
+  background: linear-gradient(145deg, #ffffff, var(--purple-50));
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(93, 44, 143, 0.1);
+}
+
+.hero-copy h2 {
+  margin: 0.55rem 0 0.85rem;
+  color: var(--purple-950);
+  font-size: clamp(2.2rem, 4.4vw, 4.7rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.hero-copy p,
+.lead {
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 1.02rem;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.flow-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.flow-strip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  border-radius: 999px;
+  background: white;
+  color: var(--purple-900);
+  border: 1px solid rgba(93, 44, 143, 0.14);
+  padding: 0.4rem 0.62rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.flow-strip b,
+.flow-strip i {
+  color: var(--teal-600);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.primary,
+.secondary {
+  min-height: 2.8rem;
+  border-radius: 0.78rem;
+  border: 1px solid transparent;
+  padding: 0.7rem 1rem;
+  font-weight: 750;
+}
+
+.primary {
+  background: var(--purple-800);
+  color: white;
+  box-shadow: 0 13px 28px rgba(70, 32, 111, 0.24);
+}
+
+.secondary {
+  background: white;
+  color: var(--purple-900);
+  border-color: var(--line);
+}
+
+.product-visual {
+  border-radius: 1.4rem;
+  padding: 1rem;
+  background: var(--purple-900);
+  color: white;
+  box-shadow: var(--shadow);
+  min-height: 29rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.visual-top,
+.visual-tile,
+.phone-card,
+.phone-row {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 1rem;
+}
+
+.visual-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.visual-top span,
+.visual-tile span,
+.phone-card span {
+  display: block;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+
+.visual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.visual-tile {
+  padding: 1rem;
+  min-height: 8.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.analytics-tile {
+  grid-column: 1 / -1;
+  background: rgba(7, 140, 140, 0.28);
+}
+
+.mini-chart {
+  flex: 1;
+  min-height: 8rem;
+  display: flex;
+  gap: 0.7rem;
+  align-items: end;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.mini-chart span {
+  flex: 1;
+  border-radius: 999px 999px 0.45rem 0.45rem;
+  background: linear-gradient(180deg, #8be0d7, #ffffff);
+  opacity: 0.9;
+}
+
+.mini-chart span:nth-child(1) { height: 36%; }
+.mini-chart span:nth-child(2) { height: 52%; }
+.mini-chart span:nth-child(3) { height: 44%; }
+.mini-chart span:nth-child(4) { height: 72%; }
+.mini-chart span:nth-child(5) { height: 61%; }
+
+.section-grid.two,
+.record-layout,
+.parent-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.86fr);
+}
+
+.executive-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.executive-strip div {
+  min-height: 5.5rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--surface);
+  border: 1px solid rgba(93, 44, 143, 0.12);
+  box-shadow: 0 12px 28px rgba(36, 17, 61, 0.06);
+}
+
+.executive-strip span,
+.connection-card span,
+.compact-copy,
+.lineage-card span {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.executive-strip span {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.4rem;
+}
+
+.executive-strip strong {
+  color: var(--purple-950);
+  line-height: 1.3;
+}
+
+.connection-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.connection-card {
+  min-height: 9.2rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: linear-gradient(145deg, white, var(--purple-50));
+  text-align: left;
+}
+
+.connection-card:hover {
+  border-color: rgba(7, 140, 140, 0.42);
+  box-shadow: 0 16px 32px rgba(7, 140, 140, 0.11);
+}
+
+.connection-card strong,
+.connection-card span,
+.lineage-card strong,
+.lineage-card span {
+  display: block;
+}
+
+.connection-card strong {
+  margin-bottom: 0.45rem;
+  color: var(--purple-950);
+  font-size: 1rem;
+}
+
+.panel,
+.metric-card,
+.pillar-card,
+.phone-frame {
+  background: var(--surface);
+  border: 1px solid rgba(93, 44, 143, 0.12);
+  border-radius: 1.05rem;
+  box-shadow: 0 16px 40px rgba(36, 17, 61, 0.08);
+}
+
+.panel {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.platform-context {
+  background: linear-gradient(145deg, #ffffff, #f6fbfb);
+}
+
+.platform-context .flow-strip {
+  margin-top: 0.8rem;
+}
+
+.panel.soft,
+.pillar-card:nth-child(even) {
+  background: var(--soft);
+}
+
+.panel-header {
+  margin-bottom: 1rem;
+}
+
+.panel-header h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.2rem;
+  color: var(--purple-950);
+}
+
+.ecosystem-strip {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.ecosystem-strip span,
+.chip {
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--purple-900);
+  border-radius: 999px;
+  padding: 0.55rem 0.75rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.chip-grid {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.pillar-grid,
+.metric-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.pillar-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.pillar-card {
+  padding: 1.15rem;
+}
+
+.pillar-number {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.7rem;
+  background: var(--teal-100);
+  color: var(--teal-600);
+  font-weight: 800;
+}
+
+.pillar-card h3 {
+  margin: 0.9rem 0 0.45rem;
+  color: var(--purple-950);
+  font-size: 1.02rem;
+  line-height: 1.3;
+}
+
+.pillar-card p {
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.clinic-metrics {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.metric-card {
+  padding: 1rem;
+  min-height: 8.6rem;
+}
+
+.metric-card p,
+.metric-card span {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.metric-card strong {
+  display: block;
+  margin: 0.55rem 0;
+  font-size: 2rem;
+  color: var(--purple-950);
+}
+
+.tone-teal { border-top: 4px solid var(--teal-600); }
+.tone-purple { border-top: 4px solid var(--purple-700); }
+.tone-rose { border-top: 4px solid var(--rose-700); }
+.tone-amber { border-top: 4px solid var(--amber-700); }
+.tone-indigo { border-top: 4px solid var(--indigo-700); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.34rem 0.62rem;
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.badge-purple,
+.badge-lavender {
+  background: var(--purple-100);
+  color: var(--purple-800);
+}
+
+.badge-teal {
+  background: var(--teal-100);
+  color: #006f72;
+}
+
+.badge-rose {
+  background: var(--rose-100);
+  color: var(--rose-700);
+}
+
+.badge-amber {
+  background: var(--amber-100);
+  color: var(--amber-700);
+}
+
+.journey-list,
+.queue-list,
+.stacked-list,
+.percentile-list,
+.timeline,
+.consent-flow {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.journey-row,
+.queue-list div,
+.stacked-list div,
+.consent-flow div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem;
+  border-radius: 0.9rem;
+  background: white;
+  border: 1px solid var(--line);
+}
+
+.journey-row strong,
+.journey-row span,
+.queue-list span {
+  display: block;
+}
+
+.journey-row span,
+.queue-list span,
+.stacked-list span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.journey-progress {
+  min-width: 11rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.progress-wrap {
+  height: 0.55rem;
+  width: 100%;
+  border-radius: 999px;
+  background: #eee8f6;
+  overflow: hidden;
+}
+
+.progress-wrap span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--purple-700), var(--teal-600));
+  border-radius: inherit;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 52rem;
+}
+
+th,
+td {
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 0.7rem;
+  vertical-align: middle;
+}
+
+th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+td {
+  color: #2b3345;
+}
+
+.link-button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--purple-800);
+  font-weight: 800;
+}
+
+.profile-head {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 1.1rem;
+  background: linear-gradient(145deg, var(--purple-800), var(--teal-600));
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  font-weight: 850;
+}
+
+.profile-head h2 {
+  margin: 0.15rem 0;
+}
+
+.profile-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.demographic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.demographic-grid div,
+.consent-box {
+  padding: 0.85rem;
+  background: var(--purple-50);
+  border-radius: 0.85rem;
+}
+
+.demographic-grid span,
+.consent-box span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.84rem;
+  margin-bottom: 0.28rem;
+}
+
+.consent-box {
+  margin-top: 0.85rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.source-map {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.compact-copy {
+  margin: -0.35rem 0 0.9rem;
+}
+
+.source-map div {
+  padding: 1rem;
+  border-radius: 0.9rem;
+  color: white;
+  font-weight: 800;
+  background: var(--purple-800);
+}
+
+.source-map div:nth-child(2) {
+  background: var(--teal-600);
+}
+
+.source-map div:nth-child(3) {
+  background: var(--amber-700);
+}
+
+.record-cards {
+  margin-bottom: 1rem;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.timeline-item > span {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  margin-top: 0.35rem;
+  background: var(--teal-600);
+  box-shadow: 0 0 0 0.32rem var(--teal-100);
+}
+
+.timeline-item p {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+}
+
+.notice {
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  margin-bottom: 1rem;
+  background: var(--amber-100);
+  color: var(--amber-700);
+  font-weight: 800;
+  border: 1px solid rgba(166, 99, 0, 0.18);
+}
+
+.privacy-notice {
+  background: var(--teal-100);
+  color: #006f72;
+  border-color: rgba(7, 140, 140, 0.2);
+}
+
+.growth-chart {
+  position: relative;
+  height: 15rem;
+  border-radius: 1rem;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 20% 100%,
+    #fff;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.chart-line {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  height: 4rem;
+  border-radius: 50%;
+  border-top: 4px solid rgba(93, 44, 143, 0.35);
+  transform: rotate(-8deg);
+}
+
+.line-one {
+  top: 45%;
+}
+
+.line-two {
+  top: 34%;
+  border-color: rgba(7, 140, 140, 0.4);
+}
+
+.chart-points span {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--purple-800);
+  box-shadow: 0 0 0 0.3rem rgba(93, 44, 143, 0.13);
+}
+
+.percentile-list > div > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.percentile-list span {
+  color: var(--muted);
+}
+
+.check-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.check-list li {
+  padding: 0.85rem 0.85rem 0.85rem 2.2rem;
+  border-radius: 0.85rem;
+  background: white;
+  border: 1px solid var(--line);
+  position: relative;
+  font-weight: 700;
+}
+
+.check-list li::before {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  top: 1rem;
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: 50%;
+  background: var(--teal-600);
+}
+
+.parent-layout {
+  align-items: start;
+}
+
+.phone-frame {
+  max-width: 24rem;
+  width: 100%;
+  justify-self: center;
+  padding: 0.9rem;
+  border-radius: 2rem;
+  background: var(--purple-950);
+  color: white;
+  box-shadow: 0 24px 60px rgba(36, 17, 61, 0.22);
+}
+
+.phone-status {
+  height: 2.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #dacde9;
+  padding: 0 0.8rem;
+}
+
+.phone-status span {
+  width: 2rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.phone-card,
+.phone-section {
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.child-card {
+  background: linear-gradient(145deg, var(--teal-600), #73cfc7);
+}
+
+.child-card strong {
+  display: block;
+  font-size: 2rem;
+}
+
+.phone-card p,
+.phone-row p {
+  color: rgba(255, 255, 255, 0.77);
+  margin: 0.3rem 0 0;
+  line-height: 1.42;
+}
+
+.phone-section h3 {
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+}
+
+.phone-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  margin-bottom: 0.6rem;
+}
+
+.phone-row > span {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: #8be0d7;
+  margin-top: 0.28rem;
+  flex: 0 0 auto;
+}
+
+.gap-chart {
+  min-height: 18rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  align-items: end;
+}
+
+.gap-chart div {
+  min-width: 0;
+  display: grid;
+  gap: 0.45rem;
+  align-items: end;
+}
+
+.gap-chart span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.gap-chart strong {
+  color: var(--purple-950);
+  font-size: 1.35rem;
+}
+
+.gap-chart i {
+  display: block;
+  border-radius: 0.75rem 0.75rem 0.35rem 0.35rem;
+  background: linear-gradient(180deg, var(--purple-700), var(--teal-600));
+}
+
+.architecture {
+  display: grid;
+  grid-template-columns: minmax(10rem, 1fr) auto minmax(10rem, 1fr) auto minmax(10rem, 1fr) auto minmax(12rem, 1fr);
+  gap: 0.8rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.arch-sources,
+.arch-outputs {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.arch-node {
+  min-height: 5rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 1rem;
+  color: white;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.arch-node.parent,
+.arch-node.clinic {
+  background: var(--purple-800);
+}
+
+.arch-node.core {
+  background: var(--teal-600);
+}
+
+.arch-node.engine {
+  background: var(--purple-950);
+}
+
+.arch-node.output {
+  background: #5f667a;
+}
+
+.arch-arrow {
+  color: var(--purple-700);
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.architecture-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.architecture-notes div,
+.privacy-callout {
+  border-radius: 0.9rem;
+  background: var(--purple-50);
+  padding: 1rem;
+}
+
+.architecture-notes strong,
+.architecture-notes span,
+.privacy-callout strong,
+.privacy-callout span {
+  display: block;
+}
+
+.architecture-notes span,
+.privacy-callout span {
+  color: var(--muted);
+  margin-top: 0.3rem;
+  line-height: 1.45;
+}
+
+.privacy-callout {
+  margin-top: 1rem;
+  border-left: 4px solid var(--teal-600);
+}
+
+.lineage-card {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 0.9rem;
+  background: var(--purple-50);
+  border-left: 4px solid var(--teal-600);
+}
+
+.lineage-card strong {
+  color: var(--purple-950);
+  margin-bottom: 0.3rem;
+}
+
+.consent-flow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.consent-flow div {
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+@media (max-width: 1100px) {
+  #app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    border-radius: 0 0 1.25rem 1.25rem;
+  }
+
+  .nav {
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  }
+
+  .sidebar-note {
+    display: none;
+  }
+
+  .hero-layout,
+  .section-grid.two,
+  .record-layout,
+  .parent-layout,
+  .architecture-notes,
+  .consent-flow,
+  .connection-grid,
+  .executive-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .clinic-metrics,
+  .metric-grid,
+  .pillar-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .architecture {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+}
+
+@media (max-width: 700px) {
+  .main {
+    padding: 1rem;
+  }
+
+  .topbar {
+    flex-direction: column;
+  }
+
+  .topbar-actions {
+    justify-content: flex-start;
+  }
+
+  .nav {
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  }
+
+  .hero-copy h2 {
+    font-size: 2.4rem;
+  }
+
+  .visual-grid,
+  .clinic-metrics,
+  .metric-grid,
+  .pillar-grid,
+  .connection-grid,
+  .executive-strip,
+  .demographic-grid,
+  .gap-chart {
+    grid-template-columns: 1fr;
+  }
+
+  .journey-row,
+  .queue-list div,
+  .stacked-list div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .journey-progress {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .phone-frame {
+    max-width: 100%;
+  }
+}
+
+    </style>
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="./src/app.js?v=2"></script>
+    <script type="module">
+const routes = [
+  { id: "overview", label: "Overview" },
+  { id: "clinic", label: "Clinic Dashboard" },
+  { id: "record", label: "Child Record" },
+  { id: "growth", label: "Growth & Care" },
+  { id: "parent", label: "Parent App" },
+  { id: "analytics", label: "Analytics" },
+  { id: "data-flow", label: "Data Flow" },
+  { id: "privacy", label: "Privacy" },
+];
+
+const clinicMetrics = [
+  { label: "Children enrolled", value: "1,284", detail: "Across active care journeys", tone: "purple" },
+  { label: "Overdue follow-ups", value: "42", detail: "Needs care team review", tone: "rose" },
+  { label: "Vaccine reminders", value: "118", detail: "Due in next 30 days", tone: "teal" },
+  { label: "Growth alerts", value: "16", detail: "Flagged for provider follow-up", tone: "amber" },
+  { label: "Screening due", value: "73", detail: "Developmental checklist pending", tone: "indigo" },
+];
+
+const careJourneys = [
+  { title: "Well-baby visits", progress: 78, count: "312 active", state: "On track" },
+  { title: "Vaccine catch-up", progress: 64, count: "86 active", state: "Needs outreach" },
+  { title: "Asthma plans", progress: 82, count: "49 active", state: "Active monitoring" },
+  { title: "Developmental screening", progress: 58, count: "121 active", state: "Due soon" },
+];
+
+const stakeholderSignals = [
+  { label: "Buyer", value: "Clinics, insurers, provider groups" },
+  { label: "Deployment", value: "White-label SaaS" },
+  { label: "Core asset", value: "Unified Pediatric Health Record" },
+  { label: "Data posture", value: "Consent-driven, de-identified analytics" },
+];
+
+const platformConnections = [
+  {
+    title: "Parent engagement",
+    text: "Families submit updates and receive clinic-configured reminders.",
+    route: "parent",
+  },
+  {
+    title: "Unified PHR Core",
+    text: "Authorized parent and provider inputs create a longitudinal pediatric record.",
+    route: "record",
+  },
+  {
+    title: "Clinic operations",
+    text: "Care teams act on reminders, follow-ups, screening queues, and care journeys.",
+    route: "clinic",
+  },
+  {
+    title: "Analytics outputs",
+    text: "De-identified trends support program planning and care gap monitoring.",
+    route: "analytics",
+  },
+];
+
+const patients = [
+  {
+    name: "Emma Wilson",
+    age: "2 years",
+    lastVisit: "May 10, 2026",
+    nextReminder: "Vaccine overdue",
+    riskFlag: "Overdue",
+    journey: "Vaccine catch-up",
+  },
+  {
+    name: "Noah Patel",
+    age: "4 years",
+    lastVisit: "Apr 22, 2026",
+    nextReminder: "Growth follow-up due",
+    riskFlag: "Follow-up",
+    journey: "Growth monitoring",
+  },
+  {
+    name: "Olivia Chen",
+    age: "6 months",
+    lastVisit: "May 24, 2026",
+    nextReminder: "Well-baby visit scheduled",
+    riskFlag: "Low",
+    journey: "Infant preventive care",
+  },
+  {
+    name: "Liam Brown",
+    age: "7 years",
+    lastVisit: "May 02, 2026",
+    nextReminder: "Asthma care plan check-in",
+    riskFlag: "Active plan",
+    journey: "Asthma care plan active",
+  },
+];
+
+const childRecord = {
+  name: "Olivia Chen",
+  age: "6 months",
+  pronouns: "She/her",
+  guardian: "Maya Chen",
+  clinic: "Maple Kids Clinic",
+  consent: "Parent consent active for clinic care team sharing",
+  demographics: [
+    { label: "Date of birth", value: "Nov 21, 2025" },
+    { label: "Care team", value: "Pediatrician, nurse, dietitian" },
+    { label: "Primary language", value: "English" },
+    { label: "Province", value: "Ontario" },
+  ],
+  summaries: [
+    { title: "Growth summary", value: "Tracking consistently", source: "Clinic Visit" },
+    { title: "Vaccine status", value: "6-month reminders scheduled", source: "Clinic Visit" },
+    { title: "Development milestones", value: "Parent checklist submitted", source: "Parent App" },
+    { title: "Dental/therapy notes", value: "Placeholder for authorized provider notes", source: "Provider Note" },
+  ],
+  timeline: [
+    { label: "Parent-reported feeding update", date: "May 27, 2026", source: "Parent App" },
+    { label: "Well-baby visit summary", date: "May 24, 2026", source: "Clinic Visit" },
+    { label: "Provider note: monitor sleep routine", date: "May 24, 2026", source: "Provider Note" },
+    { label: "Developmental checklist completed", date: "May 18, 2026", source: "Parent App" },
+  ],
+};
+
+const growthData = {
+  percentiles: [
+    { label: "Weight percentile", value: "54th", width: 54 },
+    { label: "Height percentile", value: "61st", width: 61 },
+    { label: "BMI percentile", value: "48th", width: 48 },
+    { label: "Head circumference", value: "57th", width: 57 },
+  ],
+  checklist: [
+    "6-month wellness visit",
+    "Nutrition discussion",
+    "Sleep and routine guidance",
+    "Developmental screening",
+    "Dental home conversation",
+  ],
+  vaccines: ["Routine immunization reminder", "Follow-up confirmation", "Parent education prompt"],
+  guidance: ["Feeding transitions", "Safe sleep routines", "Responsive play", "Oral health basics"],
+};
+
+const parentPreview = {
+  child: "Olivia",
+  status: "6-month care journey",
+  reminders: [
+    { title: "Vaccination due", detail: "Reminder prepared by Maple Kids Clinic" },
+    { title: "Growth update", detail: "Add current weight before next visit" },
+    { title: "Secure message", detail: "Care team response placeholder" },
+  ],
+  progress: 68,
+  tip: "Small routines can help make preventive visits easier for families.",
+};
+
+const analytics = [
+  { label: "Vaccine completion rate", value: "86%", trend: "+4% vs last quarter" },
+  { label: "Growth monitoring coverage", value: "91%", trend: "1,168 children included" },
+  { label: "Follow-up adherence", value: "74%", trend: "+9% after reminders" },
+  { label: "Screening completion", value: "69%", trend: "Developmental checks completed" },
+];
+
+const careGaps = [
+  { label: "Preventive visit overdue", value: 34 },
+  { label: "Vaccine reminder pending", value: 28 },
+  { label: "Growth follow-up due", value: 19 },
+  { label: "Screening checklist open", value: 22 },
+];
+
+const privacyItems = [
+  "Consent-driven sharing configured by care organization",
+  "Role-based access for clinic and provider users",
+  "Audit log trail for access and administrative review",
+  "Canada-only hosting placeholder for stakeholder review",
+  "PHIPA/PIPEDA-aware design language without claiming certification",
+  "Parent permissions for authorized sharing workflows",
+  "De-identified analytics only for aggregate insights",
+  "No sale of raw child health data",
+];
+
+const app = document.querySelector("#app");
+
+const routeTitles = {
+  overview: "Connected Care for Every Child",
+  clinic: "Maple Kids Clinic",
+  record: "Unified Pediatric Record",
+  growth: "Growth & Preventive Care",
+  parent: "Parent App Preview",
+  analytics: "Population Health Analytics",
+  "data-flow": "KiddoCare Data Flow",
+  privacy: "Consent & Privacy",
+};
+
+const routeSubtitles = {
+  overview:
+    "A pediatric care coordination platform that connects parents, clinics, and care teams through a unified child health record.",
+  clinic: "Clinic-facing workflows for pediatric care coordination, reminders, and follow-up visibility.",
+  record: "A single child health record core informed by authorized parent, clinic, and provider inputs.",
+  growth: "Pediatric-specific preventive care views with mock growth and reminder data.",
+  parent: "A mobile-style parent experience that supports reminders, updates, and secure engagement.",
+  analytics: "De-identified analytics only for care gap trends and clinic-level program insight.",
+  "data-flow": "The approved architecture: sources enter the Unified PHR Core, then analytics generates outputs.",
+  privacy: "Designed with Canadian privacy principles in mind.",
+};
+
+function currentRoute() {
+  const hash = window.location.hash.replace("#/", "");
+  return routes.some((route) => route.id === hash) ? hash : "overview";
+}
+
+function setRoute(route) {
+  window.location.hash = `/${route}`;
+}
+
+function badge(text, tone = "purple") {
+  return `<span class="badge badge-${tone}">${text}</span>`;
+}
+
+function metricCard(item) {
+  return `
+    <article class="metric-card tone-${item.tone}">
+      <p>${item.label}</p>
+      <strong>${item.value}</strong>
+      <span>${item.detail}</span>
+    </article>
+  `;
+}
+
+function progressBar(value, label = "") {
+  return `
+    <div class="progress-wrap" ${label ? `aria-label="${label}"` : ""}>
+      <span style="width:${value}%"></span>
+    </div>
+  `;
+}
+
+function panelHeader(title, eyebrow) {
+  return `
+    <div class="panel-header">
+      ${eyebrow ? `<span class="eyebrow">${eyebrow}</span>` : ""}
+      <h2>${title}</h2>
+    </div>
+  `;
+}
+
+function architectureStrip() {
+  return `
+    <div class="flow-strip" aria-label="KiddoCare platform architecture">
+      <span>Parent App</span>
+      <i>+</i>
+      <span>Provider/Clinic Portal</span>
+      <b>to</b>
+      <span>Unified PHR Core</span>
+      <b>to</b>
+      <span>Analytics</span>
+      <b>to</b>
+      <span>Outputs</span>
+    </div>
+  `;
+}
+
+function renderShell(active) {
+  return `
+    <aside class="sidebar">
+      <a class="brand" href="#/overview" aria-label="KiddoCare overview">
+        <span class="brand-mark">K</span>
+        <span><strong>KiddoCare</strong><small>Pediatric Health SaaS</small></span>
+      </a>
+      <nav class="nav" aria-label="Prototype navigation">
+        ${routes
+          .map(
+            (route) => `
+              <button class="${active === route.id ? "active" : ""}" data-route="${route.id}">
+                <span class="nav-dot"></span>${route.label}
+              </button>
+            `,
+          )
+          .join("")}
+      </nav>
+      <div class="sidebar-note">
+        <strong>White-label platform</strong>
+        <span>B2B pediatric infrastructure for Canadian care organizations</span>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">KiddoCare prototype</span>
+          <h1>${routeTitles[active]}</h1>
+          <p>${routeSubtitles[active]}</p>
+        </div>
+        <div class="topbar-actions">
+          ${badge("B2B-first", "purple")}
+          ${badge("Canada-focused", "teal")}
+          ${badge("Mock data", "lavender")}
+        </div>
+      </header>
+      <section class="screen">
+        ${renderRoute(active)}
+      </section>
+    </main>
+  `;
+}
+
+function overviewScreen() {
+  const pillars = [
+    {
+      title: "Unified Pediatric Health Record",
+      text: "A shared pediatric record core for authorized parent, clinic, and provider context.",
+    },
+    {
+      title: "Automated Care Journeys & Reminders",
+      text: "Care plans, follow-ups, vaccine prompts, and screening reminders coordinated across teams.",
+    },
+    {
+      title: "Parent Engagement App",
+      text: "A supportive app for families to view reminders, submit updates, and stay connected.",
+    },
+    {
+      title: "De-identified Analytics & Population Health Insights",
+      text: "Clinic-level and program-level trends without selling raw child health data.",
+    },
+  ];
+
+  const audiences = ["Clinics", "Pediatric providers", "Dental/therapy providers", "Insurers", "Care organizations"];
+
+  return `
+    <div class="hero-layout">
+      <section class="hero-copy">
+        <span class="eyebrow">B2B-first pediatric health infrastructure</span>
+        <h2>Connected Care for Every Child</h2>
+        <p>
+          KiddoCare is a white-labeled pediatric care SaaS platform for Canadian clinics,
+          pediatric providers, dental and therapy providers, insurers, and health organizations.
+          The parent app is one channel in a broader provider-led care coordination platform.
+        </p>
+        ${architectureStrip()}
+        <div class="cta-row">
+          <button class="primary" data-route="clinic">View Clinic Dashboard</button>
+          <button class="secondary" data-route="parent">View Parent App</button>
+          <button class="secondary" data-route="data-flow">View Data Flow</button>
+        </div>
+      </section>
+      <section class="product-visual" aria-label="KiddoCare platform overview">
+        <div class="visual-top">
+          <div>
+            <span>Unified Pediatric Health Record</span>
+            <strong>The core record that connects family and provider workflows</strong>
+          </div>
+          ${badge("Consent-aware", "teal")}
+        </div>
+        <div class="visual-grid">
+          <div class="visual-tile parent-tile">
+            <span>Parent App</span>
+            <strong>Reminders, updates, messages</strong>
+          </div>
+          <div class="visual-tile clinic-tile">
+            <span>Provider Portal</span>
+            <strong>Visits, notes, care journeys</strong>
+          </div>
+          <div class="visual-tile analytics-tile">
+            <span>Analytics Engine</span>
+            <strong>De-identified insights</strong>
+          </div>
+        </div>
+        <div class="mini-chart">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </section>
+    </div>
+
+    <section class="executive-strip" aria-label="KiddoCare stakeholder positioning">
+      ${stakeholderSignals
+        .map(
+          (signal) => `
+            <div>
+              <span>${signal.label}</span>
+              <strong>${signal.value}</strong>
+            </div>
+          `,
+        )
+        .join("")}
+    </section>
+
+    <section class="section-grid two">
+      <article class="panel">
+        ${panelHeader("What KiddoCare Does", "Platform model")}
+        <p class="lead">
+          KiddoCare connects parent engagement, clinic workflows, pediatric record keeping,
+          care journey automation, and analytics into one white-label platform.
+        </p>
+        <div class="ecosystem-strip">
+          <span>Parent App</span>
+          <span>Provider/Clinic Portal</span>
+          <span>Unified PHR Core</span>
+          <span>Analytics & Care Coordination Outputs</span>
+        </div>
+      </article>
+      <article class="panel soft">
+        ${panelHeader("Who It Is For", "Early partners")}
+        <div class="chip-grid">
+          ${audiences.map((item) => `<span class="chip">${item}</span>`).join("")}
+        </div>
+      </article>
+    </section>
+
+    <article class="panel">
+      ${panelHeader("How the Product Lines Connect", "Stakeholder-ready story")}
+      <div class="connection-grid">
+        ${platformConnections
+          .map(
+            (item) => `
+              <button class="connection-card" data-route="${item.route}">
+                <strong>${item.title}</strong>
+                <span>${item.text}</span>
+              </button>
+            `,
+          )
+          .join("")}
+      </div>
+    </article>
+
+    <section class="pillar-grid">
+      ${pillars
+        .map(
+          (pillar, index) => `
+            <article class="pillar-card">
+              <span class="pillar-number">0${index + 1}</span>
+              <h3>${pillar.title}</h3>
+              <p>${pillar.text}</p>
+            </article>
+          `,
+        )
+        .join("")}
+    </section>
+  `;
+}
+
+function clinicScreen() {
+  return `
+    <article class="panel platform-context">
+      ${panelHeader("Clinic View in the KiddoCare Model", "B2B operator workflow")}
+      <p class="lead">
+        This dashboard is the provider-facing output of parent engagement, clinic activity,
+        and the Unified PHR Core. Analytics turns that record context into care team queues,
+        reminders, and population-level visibility.
+      </p>
+      ${architectureStrip()}
+    </article>
+
+    <div class="metric-grid clinic-metrics">
+      ${clinicMetrics.map(metricCard).join("")}
+    </div>
+
+    <section class="section-grid two">
+      <article class="panel">
+        ${panelHeader("Care Journey Status", "Operational view")}
+        <div class="journey-list">
+          ${careJourneys
+            .map(
+              (journey) => `
+                <div class="journey-row">
+                  <div>
+                    <strong>${journey.title}</strong>
+                    <span>${journey.count} - ${journey.state}</span>
+                  </div>
+                  <div class="journey-progress">
+                    ${progressBar(journey.progress, journey.title)}
+                    <small>${journey.progress}%</small>
+                  </div>
+                </div>
+              `,
+            )
+            .join("")}
+        </div>
+      </article>
+      <article class="panel soft">
+        ${panelHeader("Care Team Queue", "Analytics-generated outputs")}
+        <div class="queue-list">
+          <div>${badge("42 overdue", "rose")} <span>Follow-up outreach recommended</span></div>
+          <div>${badge("118 reminders", "teal")} <span>Vaccine notifications prepared</span></div>
+          <div>${badge("16 growth alerts", "amber")} <span>Provider review queue</span></div>
+          <div>${badge("73 screenings", "lavender")} <span>Developmental checklist due</span></div>
+        </div>
+      </article>
+    </section>
+
+    <article class="panel table-panel">
+      ${panelHeader("Patient List", "Mock children enrolled")}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Child name</th>
+              <th>Age</th>
+              <th>Last visit</th>
+              <th>Next reminder</th>
+              <th>Risk flag</th>
+              <th>Care journey status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${patients
+              .map(
+                (patient) => `
+                  <tr>
+                    <td><button class="link-button" data-route="record">${patient.name}</button></td>
+                    <td>${patient.age}</td>
+                    <td>${patient.lastVisit}</td>
+                    <td>${patient.nextReminder}</td>
+                    <td>${badge(patient.riskFlag, patient.riskFlag === "Low" ? "teal" : patient.riskFlag === "Overdue" ? "rose" : "amber")}</td>
+                    <td>${patient.journey}</td>
+                  </tr>
+                `,
+              )
+              .join("")}
+          </tbody>
+        </table>
+      </div>
+    </article>
+  `;
+}
+
+function recordScreen() {
+  return `
+    <section class="record-layout">
+      <article class="panel profile-panel">
+        <div class="profile-head">
+          <div class="avatar">OC</div>
+          <div>
+            <span class="eyebrow">Child profile</span>
+            <h2>${childRecord.name}</h2>
+            <p>${childRecord.age} - ${childRecord.pronouns} - ${childRecord.clinic}</p>
+          </div>
+        </div>
+        <div class="demographic-grid">
+          ${childRecord.demographics
+            .map(
+              (item) => `
+                <div>
+                  <span>${item.label}</span>
+                  <strong>${item.value}</strong>
+                </div>
+              `,
+            )
+            .join("")}
+        </div>
+        <div class="consent-box">
+          ${badge("Consent status", "teal")}
+          <strong>${childRecord.consent}</strong>
+          <span>Role-based visibility is represented for prototype purposes only.</span>
+        </div>
+      </article>
+
+      <article class="panel soft">
+        ${panelHeader("Record Sources", "Unified PHR Core")}
+        <p class="compact-copy">
+          The record is not a standalone parent profile. It is the central pediatric record core
+          that receives authorized inputs from parents, clinics, and providers.
+        </p>
+        <div class="source-map">
+          <div>Source: Parent App</div>
+          <div>Source: Clinic Visit</div>
+          <div>Source: Provider Note</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="pillar-grid record-cards">
+      ${childRecord.summaries
+        .map(
+          (summary) => `
+            <article class="pillar-card">
+              ${badge(`Source: ${summary.source}`, summary.source === "Parent App" ? "teal" : summary.source === "Provider Note" ? "amber" : "lavender")}
+              <h3>${summary.title}</h3>
+              <p>${summary.value}</p>
+            </article>
+          `,
+        )
+        .join("")}
+    </section>
+
+    <article class="panel">
+      ${panelHeader("Recent Visits, Updates, and Notes", "Longitudinal timeline")}
+      <div class="timeline">
+        ${childRecord.timeline
+          .map(
+            (event) => `
+              <div class="timeline-item">
+                <span></span>
+                <div>
+                  <strong>${event.label}</strong>
+                  <p>${event.date} - Source: ${event.source}</p>
+                </div>
+              </div>
+            `,
+          )
+          .join("")}
+      </div>
+    </article>
+  `;
+}
+
+function growthScreen() {
+  return `
+    <div class="notice">
+      Prototype data only - not for clinical use.
+    </div>
+    <section class="section-grid two">
+      <article class="panel">
+        ${panelHeader("Mock Growth Chart", "Illustrative only")}
+        <div class="growth-chart">
+          <div class="chart-line line-one"></div>
+          <div class="chart-line line-two"></div>
+          <div class="chart-points">
+            <span style="left:10%; bottom:28%"></span>
+            <span style="left:28%; bottom:36%"></span>
+            <span style="left:47%; bottom:46%"></span>
+            <span style="left:67%; bottom:55%"></span>
+            <span style="left:86%; bottom:62%"></span>
+          </div>
+        </div>
+        <div class="percentile-list">
+          ${growthData.percentiles
+            .map(
+              (item) => `
+                <div>
+                  <div><span>${item.label}</span><strong>${item.value}</strong></div>
+                  ${progressBar(item.width, item.label)}
+                </div>
+              `,
+            )
+            .join("")}
+        </div>
+      </article>
+
+      <article class="panel soft">
+        ${panelHeader("Preventive Care Checklist", "Care journey")}
+        <ul class="check-list">
+          ${growthData.checklist.map((item) => `<li>${item}</li>`).join("")}
+        </ul>
+      </article>
+    </section>
+
+    <section class="section-grid two">
+      <article class="panel">
+        ${panelHeader("Vaccine Reminders", "Mock reminder workflow")}
+        <div class="stacked-list">
+          ${growthData.vaccines.map((item) => `<div>${badge("Reminder", "teal")}<span>${item}</span></div>`).join("")}
+        </div>
+      </article>
+      <article class="panel">
+        ${panelHeader("Anticipatory Guidance Topics", "Parent education")}
+        <div class="chip-grid">
+          ${growthData.guidance.map((item) => `<span class="chip">${item}</span>`).join("")}
+        </div>
+      </article>
+    </section>
+  `;
+}
+
+function parentScreen() {
+  return `
+    <section class="parent-layout">
+      <article class="panel">
+        ${panelHeader("Parent Engagement as Part of the Platform", "White-label family experience")}
+        <p class="lead">
+          The parent app keeps families connected to reminders, education, and secure care team
+          touchpoints while the clinic portal and Unified PHR Core remain central to KiddoCare.
+        </p>
+        <div class="lineage-card">
+          <strong>Parent app role</strong>
+          <span>Collects family updates and presents care journey reminders. It does not replace the provider portal or the Unified PHR Core.</span>
+        </div>
+        <div class="ecosystem-strip">
+          <span>Clinic-configured journeys</span>
+          <span>Parent-reported updates</span>
+          <span>Secure messaging placeholder</span>
+          <span>Care team visibility</span>
+        </div>
+      </article>
+
+      <article class="phone-frame" aria-label="Parent app preview">
+        <div class="phone-status"><span></span><strong>KiddoCare</strong><span></span></div>
+        <div class="phone-card child-card">
+          <span>Child profile</span>
+          <strong>${parentPreview.child}</strong>
+          <p>${parentPreview.status}</p>
+        </div>
+        <div class="phone-section">
+          <h3>Upcoming reminders</h3>
+          ${parentPreview.reminders
+            .map(
+              (item) => `
+                <div class="phone-row">
+                  <span></span>
+                  <div>
+                    <strong>${item.title}</strong>
+                    <p>${item.detail}</p>
+                  </div>
+                </div>
+              `,
+            )
+            .join("")}
+        </div>
+        <div class="phone-card">
+          <span>Educational tip</span>
+          <p>${parentPreview.tip}</p>
+        </div>
+        <div class="phone-card">
+          <span>Care journey progress</span>
+          ${progressBar(parentPreview.progress, "Care journey progress")}
+          <strong>${parentPreview.progress}% complete</strong>
+        </div>
+      </article>
+    </section>
+  `;
+}
+
+function analyticsScreen() {
+  return `
+    <div class="notice privacy-notice">
+      De-identified analytics only. This view does not expose raw patient data.
+    </div>
+    <article class="panel platform-context">
+      ${panelHeader("Analytics in the KiddoCare Model", "PHR to analytics to outputs")}
+      <p class="lead">
+        The analytics layer receives data from the Unified PHR Core and generates aggregate
+        clinic dashboards, care gap trends, and care coordination outputs. It is not a raw
+        child data export.
+      </p>
+      ${architectureStrip()}
+    </article>
+    <div class="metric-grid">
+      ${analytics
+        .map(
+          (item) => `
+            <article class="metric-card tone-purple">
+              <p>${item.label}</p>
+              <strong>${item.value}</strong>
+              <span>${item.trend}</span>
+            </article>
+          `,
+        )
+        .join("")}
+    </div>
+
+    <section class="section-grid two">
+      <article class="panel">
+        ${panelHeader("Care Gap Trends", "Clinic-level insight")}
+        <div class="gap-chart">
+          ${careGaps
+            .map(
+              (gap) => `
+                <div>
+                  <span>${gap.label}</span>
+                  <strong>${gap.value}</strong>
+                  <i style="height:${gap.value * 3}px"></i>
+                </div>
+              `,
+            )
+            .join("")}
+        </div>
+      </article>
+      <article class="panel soft">
+        ${panelHeader("Population Health Cards", "Program planning")}
+        <div class="stacked-list">
+          <div>${badge("Insight", "teal")}<span>Reminder workflows are associated with higher follow-up adherence in this mock dataset.</span></div>
+          <div>${badge("Trend", "lavender")}<span>Developmental screening completion has room for targeted outreach.</span></div>
+          <div>${badge("Privacy", "purple")}<span>Raw child health data is not sold or shown in this analytics view.</span></div>
+        </div>
+      </article>
+    </section>
+  `;
+}
+
+function dataFlowScreen() {
+  const nodes = [
+    ["Parent App", "source parent"],
+    ["Provider / Clinic Portal", "source clinic"],
+    ["Unified PHR Core", "core"],
+    ["Analytics Engine", "engine"],
+    ["Clinic Dashboard", "output"],
+    ["Population Health Insights", "output"],
+    ["Care Coordination Outputs", "output"],
+  ];
+
+  return `
+    <article class="panel data-flow-panel">
+      ${panelHeader("Approved KiddoCare Architecture", "Canonical data flow")}
+      <div class="architecture" aria-label="KiddoCare data flow diagram">
+        <div class="arch-sources">
+          ${nodes
+            .slice(0, 2)
+            .map(([label, cls]) => `<div class="arch-node ${cls}">${label}</div>`)
+            .join("")}
+        </div>
+        <div class="arch-arrow">-&gt;</div>
+        <div class="arch-node core">${nodes[2][0]}</div>
+        <div class="arch-arrow">-&gt;</div>
+        <div class="arch-node engine">${nodes[3][0]}</div>
+        <div class="arch-arrow">-&gt;</div>
+        <div class="arch-outputs">
+          ${nodes
+            .slice(4)
+            .map(([label, cls]) => `<div class="arch-node ${cls}">${label}</div>`)
+            .join("")}
+        </div>
+      </div>
+      <div class="architecture-notes">
+        <div>
+          <strong>Multiple data sources</strong>
+          <span>Authorized parent and provider inputs enter the Unified PHR Core.</span>
+        </div>
+        <div>
+          <strong>PHR feeds analytics</strong>
+          <span>The analytics engine is the only path to dashboards, insights, and coordination outputs.</span>
+        </div>
+        <div>
+          <strong>No direct external PHR outputs</strong>
+          <span>The prototype keeps output generation downstream of analytics.</span>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function privacyScreen() {
+  return `
+    <section class="section-grid two">
+      <article class="panel">
+        ${panelHeader("Canadian Privacy Principles", "Product posture")}
+        <p class="lead">
+          KiddoCare is designed with Canadian privacy principles in mind, including consent,
+          role-based access, auditability, and careful handling of pediatric health information.
+        </p>
+        <div class="lineage-card">
+          <strong>Careful wording</strong>
+          <span>This prototype is prepared for privacy review and stakeholder discussion. It does not claim completed PHIPA or PIPEDA compliance certification.</span>
+        </div>
+        <div class="privacy-callout">
+          <strong>No sale of raw child health data</strong>
+          <span>Analytics in this prototype are de-identified and program-level only.</span>
+        </div>
+      </article>
+      <article class="panel soft">
+        ${panelHeader("Privacy Controls", "Prototype examples")}
+        <ul class="check-list">
+          ${privacyItems.map((item) => `<li>${item}</li>`).join("")}
+        </ul>
+      </article>
+    </section>
+    <article class="panel">
+      ${panelHeader("Consent Workflow Placeholder", "Not legal advice")}
+      <div class="consent-flow">
+        <div>${badge("Parent permissions", "teal")}<strong>Guardian reviews sharing request</strong><span>Clinic-configured consent language placeholder</span></div>
+        <div>${badge("Access control", "lavender")}<strong>Care team role is checked</strong><span>Provider visibility depends on authorized role</span></div>
+        <div>${badge("Audit", "purple")}<strong>Access event is logged</strong><span>Audit log trail for administrative review</span></div>
+      </div>
+    </article>
+  `;
+}
+
+function renderRoute(active) {
+  const screens = {
+    overview: overviewScreen,
+    clinic: clinicScreen,
+    record: recordScreen,
+    growth: growthScreen,
+    parent: parentScreen,
+    analytics: analyticsScreen,
+    "data-flow": dataFlowScreen,
+    privacy: privacyScreen,
+  };
+
+  return screens[active]();
+}
+
+function render() {
+  const active = currentRoute();
+  app.innerHTML = renderShell(active);
+
+  document.querySelectorAll("[data-route]").forEach((element) => {
+    element.addEventListener("click", () => setRoute(element.dataset.route));
+  });
+}
+
+window.addEventListener("hashchange", render);
+render();
+
+    </script>
   </body>
 </html>
+
